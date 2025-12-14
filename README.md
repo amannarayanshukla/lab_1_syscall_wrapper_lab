@@ -12,15 +12,6 @@ This repository is a hands-on lab to create a C wrapper and practice low-level d
 - Source files placed in the repo root (container `WORKDIR` is `/my_lab`).
 - Files edited on the host and mounted into the container for iterative development.
 
-## Project layout (suggested)
-- `src/` \- C source files (e.g., `wrapper.c`, `lib.c`, `main.c`)
-- `include/` \- public headers (e.g., `wrapper.h`)
-- `bin/` \- compiled executables
-- `lib/` \- compiled shared/static libraries
-- `tests/` \- unit / integration tests
-- `Dockerfile` \- container setup (already present)
-- `README.md` \- this file
-
 ## Build inside the container
 1. Build the Docker image:
 
