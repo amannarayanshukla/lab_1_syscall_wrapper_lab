@@ -15,36 +15,16 @@ This repository is a hands-on lab to create a C wrapper and practice low-level d
 ## Build inside the container
 1. Build the Docker image:
 
-    docker build -t my_lab_image .
+    docker build -t syscall-wrapper-lab .
 
 2. Run an interactive container with the repo mounted:
 
-    docker run --rm -it -v $(pwd):/my_lab --platform=linux/amd64 my_lab_image bash
+    docker run --rm -it -v $(pwd):/my_lab syscall-wrapper-lab
 
-3. Inside the container, example compile commands:
-
-- Build a simple wrapper executable:
-
-    mkdir -p bin
-    gcc -Wall -Wextra -g -O0 -Iinclude -o bin/wrapper src/wrapper.c src/main.c
-
-- Build a shared library (example):
-
-    mkdir -p lib
-    gcc -shared -fPIC -Iinclude -o lib/libexample.so src/lib.c
-
-Notes:
-- Use `-g -O0` for easier debugging.
-- Add `-fPIC` and `-shared` to create shared libraries.
 
 ## Run and test
-- Run the built executable inside the container:
-
-    ./bin/wrapper
-
-- When using shared libraries, set `LD_LIBRARY_PATH` or install to standard paths:
-
-    LD_LIBRARY_PATH=./lib ./bin/wrapper
+     gcc main.c wrappers.s -o lab
+     ./lab 
 
 ## Debugging with `gdb` (inside the container)
 - Start `gdb` on the binary:
@@ -52,13 +32,6 @@ Notes:
     gdb ./bin/wrapper
 
 - Useful `gdb` commands: `run`, `break`, `next`, `step`, `continue`, `backtrace`, `print`.
-
-## Suggested exercises
-- Implement `wrapper.c` that forwards calls to `lib.c` and validates parameters.
-- Create `wrapper.h` and practice proper header guards and API design.
-- Build both static and shared versions of `lib.c` and observe linking differences.
-- Introduce intentional bugs and debug with `gdb`.
-- (Optional) Install `valgrind` in the `Dockerfile` to practice memory debugging.
 
 ## Notes about the `Dockerfile`
 - The `Dockerfile` uses `FROM --platform=linux/amd64 ubuntu:latest` and installs `build-essential` and `gdb`.
